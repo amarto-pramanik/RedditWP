@@ -1,7 +1,10 @@
 package net.amarto.redditwp;
 
+import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.recyclerview.extensions.ListAdapter;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +17,7 @@ import net.dean.jraw.models.Submission;
 
 import java.util.List;
 
-public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.MyViewHolder> {
+public class SubmissionAdapter extends PagedListAdapter<Submission, SubmissionAdapter.MyViewHolder> {
 	private Listing<Submission> submissions;
 
 	public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -27,8 +30,21 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.My
 	}
 
 	public SubmissionAdapter(Listing<Submission> submissions) {
+		super(DIFF_CALLBACK);
 		this.submissions = submissions;
 	}
+
+	public static final DiffUtil.ItemCallback<Submission> DIFF_CALLBACK =
+			new DiffUtil.ItemCallback<Submission>() {
+				@Override
+				public boolean areItemsTheSame(Submission oldItem, Submission newItem) {
+					return oldItem.getId() == newItem.getId();
+				}
+				@Override
+				public boolean areContentsTheSame(Submission oldItem, Submission newItem) {
+					return (oldItem.getTitle().equals(newItem.getTitle()));
+				}
+			};
 
 	@NonNull
 	@Override
@@ -43,11 +59,10 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.My
 
 	@Override
 	public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int i) {
-		viewHolder.submissionTitle.setText(submissions.get(i).getTitle());
+		viewHolder.submissionTitle.setText(getItem(i).getTitle());
 	}
 
-	@Override
-	public int getItemCount() {
-		return submissions.getChildren().size();
+	public void addMoreSubmissions(Listing<Submission> newSubmissions) {
+		submissions.addAll(newSubmissions);
 	}
 }
