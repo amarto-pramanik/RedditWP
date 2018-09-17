@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.wifi.aware.SubscribeConfig;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.MyViewHolder> {
 	private Listing<Submission> submissions;
+	private static final String TAG = SubmissionAdapter.class.getSimpleName();
 
 	public static class MyViewHolder extends RecyclerView.ViewHolder {
 		public TextView submissionTitle;
@@ -53,6 +55,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.My
 
 	public void add(Listing<Submission> newSubmissions) {
 		submissions.addAll(newSubmissions);
+		Log.d(TAG, "add: Added new submissions. New submission list size: " + submissions.size());
 		notifyDataSetChanged();
 	}
 }
