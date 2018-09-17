@@ -9,22 +9,23 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.pagination.DefaultPaginator;
 import net.dean.jraw.pagination.Paginator;
 
-public final class SubmissionFetcher extends AsyncTask<Void, Void, Listing<Submission>>{
+public final class SubmissionPaginatorFetcher extends AsyncTask<Void, Void, DefaultPaginator<Submission>>{
 	private RedditClient client;
 	private Listing<Submission> submissions;
 	private DefaultPaginator<Submission> paginator;
 
-	public SubmissionFetcher(RedditClient client) {
+	public SubmissionPaginatorFetcher(RedditClient client) {
 		this.client = client;
 	}
 
 	@Override
-	protected Listing<Submission> doInBackground(Void... voids) {
+	protected DefaultPaginator<Submission> doInBackground(Void... voids) {
 		paginator = client.subreddit("WritingPrompts")
-				.posts().build();
+				.posts().limit(2).build();
 
-		this.submissions = paginator.next();
-		return submissions;
+		Listing<Submission> submissions= paginator.next();
+
+		return paginator;
 	}
 
 	public Listing<Submission> getSubmissions() {
