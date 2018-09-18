@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import net.dean.jraw.RedditClient;
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
 			}
 		};
 		submissionsRecyclerView.addOnScrollListener(scrollListener);
+
 	}
 
 

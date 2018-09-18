@@ -17,6 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CommentActivity" />
+
         <meta-data
             android:name="net.dean.jraw.android.REDDIT_USERNAME"
             android:value="meatspin6969" />
